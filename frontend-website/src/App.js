@@ -5,10 +5,10 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 function App() {
   return (
     <Router>
-      <div class="grid-container">
-        <header class="row">
+      <div className="grid-container">
+        <header className="row">
           <div>
-            <a class="brand" href="index.html">
+            <a className="brand" href="index.html">
               ACan
             </a>
           </div>
@@ -21,7 +21,7 @@ function App() {
           <Route path="/product/:id" component={ProductScreen}></Route>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
-        <footer class="row center">coppy right ACan @2021</footer>
+        <footer className="row center">coppy right ACan @2021</footer>
       </div>
     </Router>
   );
