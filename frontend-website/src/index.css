@@ -108,6 +108,7 @@ a.brand {
 }
 .col-2 {
   flex: 2 2 1.50rem;
+  margin: 10px 25px;
 }
 img {
   border-radius: 0.5rem;
