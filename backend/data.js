@@ -18,7 +18,7 @@ const data = {
       category: "sach",
       img: "/img/2.jpg",
       price: 100,
-      countInStock:10,
+      countInStock:20,
       brand: "Kimdong",
       rating: 4.5,
       numReviews: 10,

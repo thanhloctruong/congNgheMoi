@@ -49,34 +49,42 @@ header a {
   color: #fff;
   padding: 1rem;
 }
-ul{
+ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
 }
-li{
+li {
   margin-top: 1rem;
 }
-button{
+input,
+select,
+textarea,
+button {
   padding: 1rem;
-  border-radius: 0.5rem ;
-  border: 0.1 #a4a4a4 solid;
+  border-radius: 0.5rem;
+  border: 0.1rem #a4a4a4 solid;
   font-size: 1.6rem;
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color:#f8f8f8;
+}
+
+button {
+  background-color: #f8f8f8;
   cursor: pointer;
 }
-button:hover{ 
-  border: 0.1rem;
+input:hover,
+select:hover,
+textarea:hover,
+button:hover {
+  border: 0.1rem #040404 solid;
 }
 button.primary {
   background-color: #f0c040;
 }
-button.block{
+button.block {
   width: 100%;
-
 }
 h1 {
   font-size: 1.8rem;
@@ -100,27 +108,52 @@ a.brand {
 .row.center {
   justify-content: center;
 }
-.row.top{
+.row.top {
   align-items: flex-start;
 }
 .col-1 {
   flex: 1 1 25rem;
 }
 .col-2 {
-  flex: 2 2 1.50rem;
+  flex: 2 2 1.5rem;
   margin: 10px 25px;
+}
+.min-30{
+  min-width: 30rem;
 }
 img {
   border-radius: 0.5rem;
+}
+img.small{
+  max-width: 5rem;
+  width: 100%;
 }
 img.medium {
   max-width: 29rem;
   width: 100%;
 }
-img.large{
+img.large {
   width: 100%;
 }
+img.empty {
+  width: 70%;
+  margin: 0 10rem;
+}
 /* card session */
+.cartlogo{
+  color: #fff;
+font-size: 2rem;
+}
+.badge {
+  background-color: #e95050;
+  color: #fff;
+  border-radius: 50%;
+  padding: 0.2rem 0.7rem;
+  font-size: 1.4rem;
+  margin-left: 0.2rem;
+  position: relative;
+  top: -0.8rem;
+}
 .card {
   border: 0.1rem #c0c0c0 solid;
   background-color: #f8f8f8;
@@ -147,15 +180,15 @@ img.large{
 .success {
   color: #20a020;
 }
-.danger{
+.danger {
   color: #a02020;
 }
 .alert {
   padding: 1rem;
-  border:  0.1rem solid transparent;
+  border: 0.1rem solid transparent;
   border-radius: 0.5rem;
 }
-.alert-info{
+.alert-info {
   color: #2020a0;
   background-color: #e0e0ff;
 }
@@ -163,3 +196,4 @@ img.large{
   color: #a02020;
   background-color: #ffe0e0;
 }
+
