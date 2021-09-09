@@ -1,48 +1,59 @@
+import bcrypt from "bcrypt";
 const data = {
+  users: [
+    {
+      name: "acan",
+      email: "thanhloctruong102@gmail.com",
+      password: bcrypt.hashSync("1234", 8),
+      isAdmin: true
+    },
+    {
+      name: "van Ha",
+      email: "nguyenvanha@gmail.com",
+      password: bcrypt.hashSync("1234", 8),
+      isAdmin: false
+    }
+  ],
   products: [
     {
-      _id: "1",
       name: "sgk 11",
       category: "sach",
       img: "/img/1.jpg",
       price: 100,
-      countInStock:10,
+      countInStock: 10,
       brand: "Kimdong",
       rating: 4.5,
       numReviews: 10,
       description: "hang cao cap"
     },
     {
-      _id: "2",
-      name: "sgk 11",
+      name: "sgk 41",
       category: "sach",
       img: "/img/2.jpg",
       price: 100,
-      countInStock:20,
+      countInStock: 20,
       brand: "Kimdong",
       rating: 4.5,
       numReviews: 10,
       description: "hang cao cap"
     },
     {
-      _id: "3",
-      name: "sgk 11",
+      name: "sgk 21",
       category: "sach",
       img: "/img/3.jpg",
       price: 100,
-      countInStock:10,
+      countInStock: 10,
       brand: "Kimdong",
       rating: 4.5,
       numReviews: 10,
       description: "hang cao cap"
     },
     {
-      _id: "4",
-      name: "sgk 11",
+      name: "sgk 1",
       category: "sach",
       img: "/img/4.jpg",
       price: 100,
-      countInStock:0,
+      countInStock: 0,
       brand: "Kimdong",
       rating: 4.5,
       numReviews: 10,
