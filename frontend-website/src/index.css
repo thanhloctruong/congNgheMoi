@@ -118,13 +118,13 @@ a.brand {
   flex: 2 2 1.5rem;
   margin: 10px 25px;
 }
-.min-30{
+.min-30 {
   min-width: 30rem;
 }
 img {
   border-radius: 0.5rem;
 }
-img.small{
+img.small {
   max-width: 5rem;
   width: 100%;
 }
@@ -140,9 +140,9 @@ img.empty {
   margin: 0 10rem;
 }
 /* card session */
-.cartlogo{
+.cartlogo {
   color: #fff;
-font-size: 2rem;
+  font-size: 2rem;
 }
 .badge {
   background-color: #e95050;
@@ -196,4 +196,38 @@ font-size: 2rem;
   color: #a02020;
   background-color: #ffe0e0;
 }
-
+/* form */
+.form {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+.form > div {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+.form label {
+  margin: 1rem 0;
+  display: block;
+}
+/* dropdown  */
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+.dropdown-content {
+  position: absolute;
+  border-radius: 0.5 rem;
+  display: none;
+  right: 0;
+  min-width: 12 rem;
+  width: 20rem;
+  padding: 1rem;
+  z-index: 1;
+  background-color: #203040;
+  margin: 0;
+  margin-top: 0.4rem;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
