@@ -177,6 +177,11 @@ img.empty {
 .rating span:last-child {
   color: #000;
 }
+
+/* alert */
+.loading {
+  display: block !important;
+}
 .success {
   color: #20a020;
 }
@@ -230,4 +235,16 @@ img.empty {
 }
 .dropdown:hover .dropdown-content {
   display: block;
+}
+/* checkout */
+.checkout-steps > div {
+  border-top: 0.3rem #c0c0c0 solid;
+  color: #c0c0c0;
+  flex: 1;
+  padding: 1rem;
+  font-weight: bold;
+}
+.checkout-steps > div.active {
+  border-top: 0.3rem #20a020 solid;
+  color: #20a020;
 }
