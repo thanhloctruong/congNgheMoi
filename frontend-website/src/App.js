@@ -7,6 +7,9 @@ import SigninScreen from "./screens/SigninScreen";
 import { signout } from "./actions/userAction";
 import RegisterScreen from "./screens/RegisterScreen";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen";
+import PaymentScreen from "./screens/PaymentScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
+import OrderScreen from "./screens/OrderScreen";
 
 function App() {
   const cart = useSelector(state => state.cart);
@@ -46,7 +49,6 @@ function App() {
                     <Link to="#signout" onClick={handleSignOut}>
                       Sign Outs
                     </Link>
-
                   </li>
                 </ul>
               </div>
@@ -61,6 +63,9 @@ function App() {
           <Route path="/signin" component={SigninScreen}></Route>
           <Route path="/register" component={RegisterScreen}></Route>
           <Route path="/shipping" component={ShippingAddressScreen}></Route>
+          <Route path="/payment" component={PaymentScreen}></Route>
+          <Route path="/placeorder" component={PlaceOrderScreen}></Route>
+          <Route path="/order/:id" component={OrderScreen}></Route>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">coppy right ACan @2021</footer>
