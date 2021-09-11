@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signin } from "../actions/userAction";
+import { signin, signinGoogle } from "../actions/userAction";
 import LoadingBox from "../components/LoadingBox";
-
+import { GoogleLogin } from "react-google-login";
 import MessageBox from "../components/MessageBox";
 function SigninScreen(props) {
   const [email, setEmail] = useState("");
@@ -26,6 +26,14 @@ function SigninScreen(props) {
       props.history.push(redirect);
     }
   }, [userInfo, props.history, redirect]);
+  const googleSuccess = async (res) => {
+    const name = res.profileObj.name?res.profileObj.name:1;
+    const token = res.tokenId?res.tokenId:1;
+    dispatch(signinGoogle(name, token));
+  };
+  const googleFailure = error => {
+    console.log(error);
+  };
   return (
     <div>
       <form className="form" onSubmit={handleSubmit}>
@@ -61,10 +69,20 @@ function SigninScreen(props) {
             Sign In
           </button>
         </div>
+        <GoogleLogin
+          clientId="216043543519-qsm0h8a0fc2uvs0tjte6iv8jss6odrg6.apps.googleusercontent.com"
+          onSuccess={googleSuccess}
+          onfailure={googleFailure}
+          cookiePolicy="single_host_origin"
+        ></GoogleLogin>
         <div>
           <label />
           <div>
-            create account? <Link to={`/register?redirect=${redirect}`}> Create ur account</Link>
+            create account?{" "}
+            <Link to={`/register?redirect=${redirect}`}>
+              {" "}
+              Create ur account
+            </Link>
           </div>
         </div>
       </form>

@@ -86,6 +86,9 @@ button.primary {
 button.block {
   width: 100%;
 }
+button.google{
+  background-color: #e95050;
+}
 h1 {
   font-size: 1.8rem;
   padding: 1rem 0;

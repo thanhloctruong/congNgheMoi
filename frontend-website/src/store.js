@@ -7,7 +7,8 @@ import {
 import { cartReducer } from "./reducers/cartReducer";
 import {
   userSigninReducer,
-  userRegisterReducer
+  userRegisterReducer,
+  userSigninGoogleReducer
 } from "./reducers/userReducers";
 import { orderCreateReducer, orderDetailsReducer } from "./reducers/orderReducer";
 const initialState = {
@@ -30,10 +31,11 @@ const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
   cart: cartReducer,
-  userSignin: userSigninReducer,
+  userSignin: userSigninReducer,userSigninGoogleReducer,
   userRegister: userRegisterReducer,
   orderCreate: orderCreateReducer,
-  orderDetails: orderDetailsReducer
+  orderDetails: orderDetailsReducer,
+  // userSigninGoogle: userSigninGoogleReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

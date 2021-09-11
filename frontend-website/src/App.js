@@ -15,7 +15,11 @@ function App() {
   const cart = useSelector(state => state.cart);
   const { cartItems } = cart;
   const userSignin = useSelector(state => state.userSignin);
+  // console.log(userSignin);
   const { userInfo } = userSignin;
+  // console.log(userInfo.result.name);
+  // const userSigninGoogle = useSelector(state => state.userSigninGoogle);
+  // const {userInfoGoogle} = userSigninGoogle;
   const dispatch = useDispatch();
   const handleSignOut = () => {
     dispatch(signout());
@@ -38,6 +42,7 @@ function App() {
                 <span className="badge">{cartItems.length}</span>
               )}
             </Link>
+
             {userInfo ? (
               <div className="dropdown">
                 <Link to="#">

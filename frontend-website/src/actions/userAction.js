@@ -5,7 +5,10 @@ import {
   USER_SIGNINOUT,
   USER_REGISTER_REQUEST,
   USER_REGISTER_FAIL,
-  USER_REGISTER_SUCCESS
+  USER_REGISTER_SUCCESS,
+  USER_SIGNIN_GOOGLE_REQUEST,
+  USER_SIGNIN_GOOGLE_SUCCESS,
+  USER_SIGNIN_GOOGLE_FAIL
 } from "../constants/userConstants";
 import axios from "axios";
 
@@ -18,6 +21,27 @@ export const signin = (email, password) => async dispatch => {
   } catch (error) {
     dispatch({
       type: USER_SIGNIN_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    });
+  }
+};
+export const signinGoogle = (name,email, token) => async dispatch => {
+  dispatch({ type: USER_SIGNIN_GOOGLE_REQUEST });
+  try {
+    const { data } = await axios.post("/api/users/register", {
+      name,
+      email,
+      password: '123456'
+    });
+    dispatch({ type: USER_SIGNIN_GOOGLE_SUCCESS, payload: data });
+    dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_SIGNIN_GOOGLE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
