@@ -28,8 +28,10 @@ function SigninScreen(props) {
   }, [userInfo, props.history, redirect]);
   const googleSuccess = async (res) => {
     const name = res.profileObj.name?res.profileObj.name:1;
-    const token = res.tokenId?res.tokenId:1;
-    dispatch(signinGoogle(name, token));
+    const name1 = res.profileObj.email?res.profileObj.email:1;
+    // console.log(name1);
+    // const token = res.tokenId?res.tokenId:1;
+    dispatch(signinGoogle(name, name1));
   };
   const googleFailure = error => {
     console.log(error);
@@ -69,12 +71,15 @@ function SigninScreen(props) {
             Sign In
           </button>
         </div>
+        <div>
+
         <GoogleLogin
           clientId="216043543519-qsm0h8a0fc2uvs0tjte6iv8jss6odrg6.apps.googleusercontent.com"
           onSuccess={googleSuccess}
           onfailure={googleFailure}
           cookiePolicy="single_host_origin"
         ></GoogleLogin>
+        </div>
         <div>
           <label />
           <div>

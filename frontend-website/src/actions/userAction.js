@@ -28,10 +28,10 @@ export const signin = (email, password) => async dispatch => {
     });
   }
 };
-export const signinGoogle = (name,email, token) => async dispatch => {
-  dispatch({ type: USER_SIGNIN_GOOGLE_REQUEST });
+export const signinGoogle = (name,email) => async dispatch => {
+  dispatch({ type: USER_SIGNIN_GOOGLE_REQUEST , payload:{name, email}});
   try {
-    const { data } = await axios.post("/api/users/register", {
+    const { data } = await axios.post("/api/users/signingoogle", {
       name,
       email,
       password: '123456'

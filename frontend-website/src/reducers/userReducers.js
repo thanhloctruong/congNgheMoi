@@ -28,6 +28,7 @@ export const userSigninReducer = (state = {}, action) => {
 export const userSigninGoogleReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_SIGNIN_GOOGLE_REQUEST:
+      // console.log(action.payload);
       return { loading: true };
     case USER_SIGNIN_GOOGLE_SUCCESS:
       return { loading: true, userInfo: action.payload };
