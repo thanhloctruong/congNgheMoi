@@ -8,7 +8,10 @@ import {
   USER_REGISTER_SUCCESS,
   USER_SIGNIN_GOOGLE_REQUEST,
   USER_SIGNIN_GOOGLE_SUCCESS,
-  USER_SIGNIN_GOOGLE_FAIL
+  USER_SIGNIN_GOOGLE_FAIL,
+  USER_SIGNIN_FACEBOOK_REQUEST,
+  USER_SIGNIN_FACEBOOK_SUCCESS,
+  USER_SIGNIN_FACEBOOK_FAIL
 } from "../constants/userConstants";
 import axios from "axios";
 
@@ -42,6 +45,27 @@ export const signinGoogle = (name,email) => async dispatch => {
   } catch (error) {
     dispatch({
       type: USER_SIGNIN_GOOGLE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    });
+  }
+};
+export const signinFacebook = (name,email) => async dispatch => {
+  dispatch({ type: USER_SIGNIN_FACEBOOK_REQUEST , payload:{name, email}});
+  try {
+    const { data } = await axios.post("/api/users/signinfacebook", {
+      name,
+      email,
+      password: '123456'
+    });
+    dispatch({ type: USER_SIGNIN_FACEBOOK_SUCCESS, payload: data });
+    dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_SIGNIN_FACEBOOK_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

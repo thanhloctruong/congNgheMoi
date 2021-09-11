@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signin, signinGoogle } from "../actions/userAction";
+import { signin, signinGoogle, signinFacebook } from "../actions/userAction";
 import LoadingBox from "../components/LoadingBox";
 import { GoogleLogin } from "react-google-login";
+import { FacebookLoginWithButton } from "facebook-login-react";
 import MessageBox from "../components/MessageBox";
 function SigninScreen(props) {
   const [email, setEmail] = useState("");
@@ -26,9 +27,9 @@ function SigninScreen(props) {
       props.history.push(redirect);
     }
   }, [userInfo, props.history, redirect]);
-  const googleSuccess = async (res) => {
-    const name = res.profileObj.name?res.profileObj.name:1;
-    const name1 = res.profileObj.email?res.profileObj.email:1;
+  const googleSuccess = async res => {
+    const name = res.profileObj.name ? res.profileObj.name : 1;
+    const name1 = res.profileObj.email ? res.profileObj.email : 1;
     // console.log(name1);
     // const token = res.tokenId?res.tokenId:1;
     dispatch(signinGoogle(name, name1));
@@ -36,6 +37,16 @@ function SigninScreen(props) {
   const googleFailure = error => {
     console.log(error);
   };
+
+  useEffect(() => {});
+  const responseFacebook = response => {
+    console.log(response);
+    const nameFace = response.name;
+    const emailFace = response.email;
+    dispatch(signinFacebook(nameFace, emailFace));
+    // setData(response);
+  };
+
   return (
     <div>
       <form className="form" onSubmit={handleSubmit}>
@@ -72,13 +83,20 @@ function SigninScreen(props) {
           </button>
         </div>
         <div>
-
-        <GoogleLogin
-          clientId="216043543519-qsm0h8a0fc2uvs0tjte6iv8jss6odrg6.apps.googleusercontent.com"
-          onSuccess={googleSuccess}
-          onfailure={googleFailure}
-          cookiePolicy="single_host_origin"
-        ></GoogleLogin>
+          <GoogleLogin
+            clientId="216043543519-qsm0h8a0fc2uvs0tjte6iv8jss6odrg6.apps.googleusercontent.com"
+            onSuccess={googleSuccess}
+            onfailure={googleFailure}
+            cookiePolicy="single_host_origin"
+          ></GoogleLogin>
+        </div>
+        <div>
+          <FacebookLoginWithButton
+            appId="973667153209941"
+            autoLoad={true}
+            fields="name,email,picture"
+            callback={responseFacebook}
+          ></FacebookLoginWithButton>
         </div>
         <div>
           <label />
