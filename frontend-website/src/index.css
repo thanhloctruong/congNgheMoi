@@ -204,6 +204,10 @@ img.empty {
   color: #a02020;
   background-color: #ffe0e0;
 }
+.alert-success {
+  color: #20a020;
+  background-color: #eeffe0;
+}
 /* form */
 .form {
   max-width: 60rem;
@@ -259,4 +263,21 @@ img.empty {
   align-items: center;
   text-align: center;
   border-radius: 4px !important;
+}
+
+/* table */
+.table{
+  width: 100%;
+  border-collapse: collapse;
+}
+.table tbody tr:nth-last-of-type(odd){
+  background-color: #f8f8f8;
+}
+.table td, .table th {
+  text-align: left;
+  border: 0,1rem solid #e0e0ff;
+  padding: 0.5rem;
+}
+.table button{
+  margin:  0 o.2 rem;
 }

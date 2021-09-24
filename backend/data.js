@@ -18,7 +18,7 @@ const data = {
     {
       name: "sgk 11",
       category: "sach",
-      img: "/img/1.jpg",
+      image: "/img/1.jpg",
       price: 100,
       countInStock: 10,
       brand: "Kimdong",
@@ -29,7 +29,7 @@ const data = {
     {
       name: "sgk 41",
       category: "sach",
-      img: "/img/2.jpg",
+      image: "/img/2.jpg",
       price: 100,
       countInStock: 20,
       brand: "Kimdong",
@@ -40,7 +40,7 @@ const data = {
     {
       name: "sgk 21",
       category: "sach",
-      img: "/img/3.jpg",
+      image: "/img/3.jpg",
       price: 100,
       countInStock: 10,
       brand: "Kimdong",
@@ -51,7 +51,7 @@ const data = {
     {
       name: "sgk 1",
       category: "sach",
-      img: "/img/4.jpg",
+      image: "/img/4.jpg",
       price: 100,
       countInStock: 0,
       brand: "Kimdong",

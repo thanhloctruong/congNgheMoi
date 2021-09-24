@@ -10,6 +10,9 @@ import ShippingAddressScreen from "./screens/ShippingAddressScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
+import OrderHistoryScreen from "./screens/OrderHistoryScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import PrivateRoute from "components/PrivateRoute";
 
 function App() {
   const cart = useSelector(state => state.cart);
@@ -51,6 +54,12 @@ function App() {
                 </Link>
                 <ul className="dropdown-content">
                   <li>
+                    <Link to="/profile">User Profile</Link>
+                  </li>
+                  <li>
+                    <Link to="/orderhistory">Order History</Link>
+                  </li>
+                  <li>
                     <Link to="#signout" onClick={handleSignOut}>
                       Sign Outs
                     </Link>
@@ -59,6 +68,28 @@ function App() {
               </div>
             ) : (
               <Link to="/signin">sign in</Link>
+            )}
+            {userInfo && userInfo.isAdmin && (
+              <div className="dropdown">
+                <Link to="#admin">
+                  {" "}
+                  Admin <i className="fa fa-caret-down"></i>
+                </Link>
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="/dashboard">dashboard</Link>
+                  </li>
+                  <li>
+                    <Link to="/productlist">productlist</Link>
+                  </li>
+                  <li>
+                    <Link to="/orderlist">order</Link>
+                  </li>
+                  <li>
+                    <Link to="/userlist">users</Link>
+                  </li>
+                </ul>
+              </div>
             )}
           </div>
         </header>
@@ -70,7 +101,12 @@ function App() {
           <Route path="/shipping" component={ShippingAddressScreen}></Route>
           <Route path="/payment" component={PaymentScreen}></Route>
           <Route path="/placeorder" component={PlaceOrderScreen}></Route>
+          <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
           <Route path="/order/:id" component={OrderScreen}></Route>
+          <PrivateRoute
+            path="/profile"
+            component={ProfileScreen}
+          ></PrivateRoute>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">coppy right ACan @2021</footer>

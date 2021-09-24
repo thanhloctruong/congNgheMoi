@@ -14,6 +14,21 @@ export const generateToken = user => {
     }
   );
 };
+export const qrToken = () => {
+  return jwt.sign(
+    {
+      name: "qrtoken",
+      email: "qrtoken@gmail.com"
+    },
+    // eslint-disable-next-line no-undef
+    process.env.JWT_SECRET || "acan",
+    {
+      expiresIn: "30d"
+    }
+  );
+};
+
+
 export const isAuth = (req, res, next) => {
   const authorization = req.headers.authorization;
   if (authorization) {
@@ -24,10 +39,20 @@ export const isAuth = (req, res, next) => {
         res.status(401).send({ message: "invalid token" });
       } else {
         req.user = decode;
+        // console.log(req.user);
+        // console.log(decode);
         next();
       }
     });
   } else {
     res.status(401).send({ message: "no Token" });
+  }
+};
+
+export const isAdmin = (req, res, next) => {
+  if(req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401).send({ message: "Invalid Admin Token" });
   }
 };
