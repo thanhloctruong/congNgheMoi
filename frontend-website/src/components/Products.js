@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Rating from "./Rating";
 function Products(props) {
   const { product } = props;
