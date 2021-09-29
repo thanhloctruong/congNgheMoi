@@ -281,3 +281,7 @@ img.empty {
 .table button{
   margin:  0 o.2 rem;
 }
+/* qr scanner */
+.qrscanner{
+  text-align: center;
+}

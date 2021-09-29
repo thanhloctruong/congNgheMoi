@@ -17,11 +17,14 @@ import {
   USER_DETAILS_SUCCESS,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_FAIL,
-  USER_UPDATE_PROFILE_SUCCESS
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_SIGNINQR_REQUEST,
+  USER_SIGNINQR_SUCCESS,
+  USER_SIGNINQR_FAIL
 } from "../constants/userConstants";
 import axios from "axios";
 
-export const signin = (email, password) => async dispatch => {
+export const signin = (email, password) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_REQUEST, payload: { email, password } });
   try {
     const { data } = await axios.post("/api/users/signin", { email, password });
@@ -37,7 +40,23 @@ export const signin = (email, password) => async dispatch => {
     });
   }
 };
-export const signinGoogle = (name, email) => async dispatch => {
+export const signinQr = (token) => async (dispatch) => {
+  dispatch({ type: USER_SIGNINQR_REQUEST, payload: { token } });
+  try {
+    const { data } = await axios.post("/api/users/signinqr", { token });
+    dispatch({ type: USER_SIGNINQR_SUCCESS, payload: data });
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_SIGNINQR_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    });
+  }
+};
+export const signinGoogle = (name, email) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_GOOGLE_REQUEST, payload: { name, email } });
   try {
     const { data } = await axios.post("/api/users/signingoogle", {
@@ -58,7 +77,7 @@ export const signinGoogle = (name, email) => async dispatch => {
     });
   }
 };
-export const signinFacebook = (name, email) => async dispatch => {
+export const signinFacebook = (name, email) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_FACEBOOK_REQUEST, payload: { name, email } });
   try {
     const { data } = await axios.post("/api/users/signinfacebook", {
@@ -79,13 +98,13 @@ export const signinFacebook = (name, email) => async dispatch => {
     });
   }
 };
-export const signout = () => dispatch => {
+export const signout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   localStorage.removeItem("cartItems");
   localStorage.removeItem("shippingAddress");
   dispatch({ type: USER_SIGNINOUT });
 };
-export const register = (name, email, password) => async dispatch => {
+export const register = (name, email, password) => async (dispatch) => {
   dispatch({ type: USER_REGISTER_REQUEST, payload: { name, email, password } });
   try {
     const { data } = await axios.post("/api/users/register", {
@@ -106,7 +125,7 @@ export const register = (name, email, password) => async dispatch => {
     });
   }
 };
-export const detailsUser = userId => async (dispatch, getState) => {
+export const detailsUser = (userId) => async (dispatch, getState) => {
   dispatch({ type: USER_DETAILS_REQUEST, payload: userId });
   const {
     userSignin: { userInfo }
@@ -127,7 +146,7 @@ export const detailsUser = userId => async (dispatch, getState) => {
   }
 };
 
-export const updateUserProfile = user => async (dispatch, getState) => {
+export const updateUserProfile = (user) => async (dispatch, getState) => {
   dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: user });
   const {
     userSignin: { userInfo }

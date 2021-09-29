@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import expressAsyncHandler from "express-async-handler";
 import data from "../data.js";
 import User from "../models/userModel.js";
-import { generateToken, qrToken, isAuth } from "../untils.js";
+import { generateToken, isAuth } from "../untils.js";
 
 const userRouter = express.Router();
 
@@ -17,20 +17,40 @@ userRouter.get(
     res.send({ createdUsers });
   })
 );
-userRouter.get("/qrsignin", async (req, res) => {
-  res.send({
-    token: qrToken()
-  });
-});
+userRouter.post(
+  "/signinqr",
+  expressAsyncHandler(async (req, res) => {
+    const authorQr = req.body.token;
+    console.log(authorQr);
+    // eslint-disable-next-line no-undef
+    jwt.verify(authorQr, process.env.JWT_SECRET || "acan", (err, decode) => {
+      if (err) {
+        res.status(401).send({ message: "invalid token" });
+      } else {
+        req.user = decode;
+        console.log(req.user);
+        // console.log(generateToken(decode));
+        res.send({
+          _id: decode._id,
+          name: decode.name,
+          email: decode.email,
+          isAdmin: decode.isAdmin,
+          token: authorQr
+        });
+        // eslint-disable-next-line no-undef
+        next();
+      }
+    });
+  })
+);
 
 userRouter.post("/submitqr", async (req, res, next) => {
   const authorQr = req.headers.authorqr;
-
   const authorization = req.headers.authorization;
   if (authorQr) {
     const qrToken = authorQr.slice(7, authorQr.length); // 7 is bearer
     // eslint-disable-next-line no-undef
-    jwt.verify(qrToken, process.env.JWT_SECRET || "acan", err => {
+    jwt.verify(qrToken, process.env.JWT_SECRET || "acan", (err) => {
       if (err) {
         res.status(401).send({ message: "invalid token" });
       } else if (authorization) {

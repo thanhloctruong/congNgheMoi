@@ -1,8 +1,9 @@
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
+import QRCode from "qrcode.react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CartScreen from "./screens/CartScreen";
-import AdminRoute from './components/AdminRoute';
+import AdminRoute from "./components/AdminRoute";
 import { useSelector, useDispatch } from "react-redux";
 import SigninScreen from "./screens/SigninScreen";
 import { signout } from "./actions/userAction";
@@ -10,17 +11,18 @@ import RegisterScreen from "./screens/RegisterScreen";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
-import ProductListScreen from './screens/ProductListScreen';
-import ProductEditScreen from './screens/ProductEditScreen';
+import ProductListScreen from "./screens/ProductListScreen";
+import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderScreen from "./screens/OrderScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import PrivateRoute from "components/PrivateRoute";
+import SigninQRScreen from "screens/SigninQRScreen";
 
 function App() {
-  const cart = useSelector(state => state.cart);
+  const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-  const userSignin = useSelector(state => state.userSignin);
+  const userSignin = useSelector((state) => state.userSignin);
   // console.log(userSignin);
   const { userInfo } = userSignin;
   // console.log(userInfo.result.name);
@@ -40,6 +42,12 @@ function App() {
             </Link>
           </div>
           <div>
+            <Link to="/signinqr">
+              <span className="cartlogo">
+                <i className="fas fa-qrcode"></i> 
+              </span>
+            </Link>
+
             <Link to="/cart">
               <span className="cartlogo">
                 <i className="fas fa-shopping-cart"></i>
@@ -62,10 +70,20 @@ function App() {
                   <li>
                     <Link to="/orderhistory">Order History</Link>
                   </li>
+                  
                   <li>
                     <Link to="#signout" onClick={handleSignOut}>
                       Sign Outs
                     </Link>
+                  </li>
+                  <li>
+                    <QRCode
+                      id="qrcode"
+                      value= {userInfo.token}
+                      size={200}
+                      level={"H"}
+                      includeMargin={true}
+                    />
                   </li>
                 </ul>
               </div>
@@ -97,6 +115,7 @@ function App() {
           </div>
         </header>
         <main>
+          <Route path="/signinqr" component={SigninQRScreen}></Route>
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/products/:id" component={ProductScreen} exact></Route>
           <Route
