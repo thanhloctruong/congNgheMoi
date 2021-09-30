@@ -15,6 +15,7 @@ function SigninQR(props) {
   const handleScan = (data) => {
     if (!data) return;
     setResult(data.text);
+   
     // console.log(result);
   };
   useEffect(() => {
@@ -25,6 +26,7 @@ function SigninQR(props) {
       props.history.push(redirect);
       dispatch({ type: USER_SIGNINQR_RESET });
     }
+    
   }, [userInfo, props.history, redirect, dispatch]);
   const handleError = (err) => {
     console.error(err);
@@ -44,7 +46,7 @@ function SigninQR(props) {
         onScan={handleScan}
       />
 
-      <button onClick={() => window.location.reload(false)}>Loggin</button>
+      {/* <button onClick={() => window.location.reload(false)}>Loggin</button> */}
       {/* <Link to="/">Submit</Link> */}
 
       {/* <p>{result}</p> */}

@@ -45,6 +45,7 @@ export const signinQr = (token) => async (dispatch) => {
   try {
     const { data } = await axios.post("/api/users/signinqr", { token });
     dispatch({ type: USER_SIGNINQR_SUCCESS, payload: data });
+    dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
