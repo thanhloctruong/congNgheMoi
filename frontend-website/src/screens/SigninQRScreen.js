@@ -41,7 +41,7 @@ function SigninQR(props) {
         delay={10000}
         style={previewStyle}
         // accept="image/*"
-        // capture="environment"
+        capture="environment"
         onError={handleError}
         onScan={handleScan}
         facingMode="environment"
