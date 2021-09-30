@@ -44,6 +44,7 @@ function SigninQR(props) {
         // capture="environment"
         onError={handleError}
         onScan={handleScan}
+        facingMode='rear'
       />
 
       {/* <button onClick={() => window.location.reload(false)}>Loggin</button> */}
