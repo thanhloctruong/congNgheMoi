@@ -40,13 +40,13 @@ function SigninQR(props) {
     <div className="qrscanner">
       <QrReader
         delay={10000}
+        facingMode="rear"
+        chooseDeviceId={facingMode}
         style={previewStyle}
         // accept="image/*"
         // capture="environment"
         onError={handleError}
         onScan={handleScan}
-        facingMode="rear"
-        chooseDeviceId={facingMode}
       />
 
       {/* <button onClick={() => window.location.reload(false)}>Loggin</button> */}
