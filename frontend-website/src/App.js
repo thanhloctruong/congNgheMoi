@@ -15,6 +15,7 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderScreen from "./screens/OrderScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
+import OrderListScreen from "./screens/OrderListScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import PrivateRoute from "components/PrivateRoute";
 import SigninQRScreen from "screens/SigninQRScreen";
@@ -44,7 +45,7 @@ function App() {
           <div>
             <Link to="/signinqr">
               <span className="cartlogo">
-                <i className="fas fa-qrcode"></i> 
+                <i className="fas fa-qrcode"></i>
               </span>
             </Link>
 
@@ -70,7 +71,7 @@ function App() {
                   <li>
                     <Link to="/orderhistory">Order History</Link>
                   </li>
-                  
+
                   <li>
                     <Link to="#signout" onClick={handleSignOut}>
                       Sign Outs
@@ -79,7 +80,7 @@ function App() {
                   <li>
                     <QRCode
                       id="qrcode"
-                      value= {userInfo.token}
+                      value={userInfo.token}
                       size={200}
                       level={"H"}
                       includeMargin={true}
@@ -134,6 +135,10 @@ function App() {
             path="/profile"
             component={ProfileScreen}
           ></PrivateRoute>
+          <AdminRoute
+            path="/orderlist"
+            component={OrderListScreen}
+          ></AdminRoute>
           <AdminRoute
             path="/productlist"
             component={ProductListScreen}

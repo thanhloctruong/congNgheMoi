@@ -1,7 +1,7 @@
 import express from "express";
 import expressAsyncHanler from "express-async-handler";
 import Order from "../models/orderModel.js";
-import { isAuth } from "../untils.js";
+import { isAuth, isAdmin } from "../untils.js";
 
 const orderRouter = express();
 orderRouter.get(
@@ -17,7 +17,7 @@ orderRouter.post(
   isAuth,
   expressAsyncHanler(async (req, res) => {
     if (req.body.orderItems.length === 0) {
-      res.status(400).send({ message: 'Cart is empty' });
+      res.status(400).send({ message: "Cart is empty" });
     } else {
       const order = new Order({
         orderItems: req.body.orderItems,
@@ -27,12 +27,12 @@ orderRouter.post(
         shippingPrice: req.body.shippingPrice,
         taxPrice: req.body.taxPrice,
         totalPrice: req.body.totalPrice,
-        user: req.user._id,
+        user: req.user._id
       });
       const createdOrder = await order.save();
       res
         .status(201)
-        .send({ message: 'New Order Created', order: createdOrder });
+        .send({ message: "New Order Created", order: createdOrder });
     }
   })
 );
@@ -69,6 +69,46 @@ orderRouter.put(
       res.send({ message: "Order Paid", order: updatedOrder });
     } else {
       res.status(404).send({ message: " Order not found" });
+    }
+  })
+);
+orderRouter.get(
+  "/",
+  isAuth,
+  isAdmin,
+  expressAsyncHanler(async (req, res) => {
+    const orders = await Order.find({}).populate("user", "name");
+    res.send(orders);
+  })
+);
+orderRouter.delete(
+  "/:id",
+  isAuth,
+  isAdmin,
+  expressAsyncHanler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      const deleteOrder = await order.remove();
+      res.send({ message: "Order Deleted", order: deleteOrder });
+    } else {
+      res.status(404).send({ message: "Order Not Found" });
+    }
+  })
+);
+orderRouter.put(
+  "/:id/deliver",
+  isAuth,
+  isAdmin,
+  expressAsyncHanler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+
+      const updatedOrder = await order.save();
+      res.send({ message: "Order Delivered", order: updatedOrder });
+    } else {
+      res.status(404).send({ message: "Order Not Found" });
     }
   })
 );
