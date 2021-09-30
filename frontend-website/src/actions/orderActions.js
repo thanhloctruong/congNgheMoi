@@ -15,22 +15,16 @@ import {
 import axios from "axios";
 import { CART_EMPTY } from "../constants/cartConstants";
 
-export const createOrder = order => async (dispatch, getState) => {
+export const createOrder = (order) => async (dispatch, getState) => {
   dispatch({ type: ORDER_CREATE_REQUEST, payload: order });
-  const {
-    userSignin: { userInfo }
-  } = getState();
   try {
+    const {
+      userSignin: { userInfo }
+    } = getState();
     const { data } = await axios.post("/api/orders", order, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
-      // const { data } = await axios.post("/api/users/submitqr", order, {
-      //   headers: {
-      //     Authorization: `Bearer ${userInfo.token}`,
-      //     Authorqr:
-      //       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicXJ0b2tlbiIsImVtYWlsIjoicXJ0b2tlbkBnbWFpbC5jb20iLCJpYXQiOjE2MzEzODkxMDAsImV4cCI6MTYzMzk4MTEwMH0.ImoXuK7DS2Qhy9WhmgxlVEd-PdDhrJRV2_zbo5mDoaI"
-      //   }
     });
     dispatch({ type: ORDER_CREATE_SUCCESS, payload: data.order });
     dispatch({ type: CART_EMPTY });
@@ -45,7 +39,7 @@ export const createOrder = order => async (dispatch, getState) => {
     });
   }
 };
-export const detailsOrder = orderId => async (dispatch, getState) => {
+export const detailsOrder = (orderId) => async (dispatch, getState) => {
   dispatch({ type: ORDER_DETAILS_REQUEST, payload: orderId });
   const {
     userSignin: { userInfo }

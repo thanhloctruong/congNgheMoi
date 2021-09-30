@@ -17,7 +17,7 @@ orderRouter.post(
   isAuth,
   expressAsyncHanler(async (req, res) => {
     if (req.body.orderItems.length === 0) {
-      res.status(400).send({ message: "cart is empty" });
+      res.status(400).send({ message: 'Cart is empty' });
     } else {
       const order = new Order({
         orderItems: req.body.orderItems,
@@ -27,12 +27,12 @@ orderRouter.post(
         shippingPrice: req.body.shippingPrice,
         taxPrice: req.body.taxPrice,
         totalPrice: req.body.totalPrice,
-        user: req.user._id
+        user: req.user._id,
       });
       const createdOrder = await order.save();
       res
         .status(201)
-        .send({ message: "New order Created", order: createdOrder });
+        .send({ message: 'New Order Created', order: createdOrder });
     }
   })
 );
