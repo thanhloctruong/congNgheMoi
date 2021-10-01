@@ -5,8 +5,6 @@ import { signinQr } from "actions/userAction";
 import { USER_SIGNINQR_RESET } from "constants/userConstants";
 
 function SigninQR(props) {
-  const facingMode = "environment";
-
   const [result, setResult] = useState("");
   const dispatch = useDispatch();
   const userSignin = useSelector((state) => state.userSignin);
@@ -16,8 +14,7 @@ function SigninQR(props) {
     : "/";
   const handleScan = (data) => {
     if (!data) return;
-    setResult(data.text);
-
+    setResult(data);
     // console.log(result);
   };
   useEffect(() => {
@@ -26,7 +23,7 @@ function SigninQR(props) {
   useEffect(() => {
     if (userInfo) {
       props.history.push(redirect);
-      dispatch({ type: USER_SIGNINQR_RESET });
+      // dispatch({ type: USER_SIGNINQR_RESET });
     }
   }, [userInfo, props.history, redirect, dispatch]);
   const handleError = (err) => {
@@ -39,7 +36,7 @@ function SigninQR(props) {
   return (
     <div className="qrscanner">
       <QrReader
-        delay={10000}
+        delay={1000}
         // facingMode="environment"
         // chooseDeviceId={facingMode}
         style={previewStyle}
