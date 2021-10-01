@@ -5,7 +5,7 @@ import { signinQr } from "actions/userAction";
 import { USER_SIGNINQR_RESET } from "constants/userConstants";
 
 function SigninQR(props) {
-  const facingMode = "rear";
+  const facingMode = "environment";
 
   const [result, setResult] = useState("");
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ function SigninQR(props) {
     <div className="qrscanner">
       <QrReader
         delay={10000}
-        facingMode="rear"
+        facingMode="environment"
         chooseDeviceId={facingMode}
         style={previewStyle}
         // accept="image/*"
@@ -51,7 +51,7 @@ function SigninQR(props) {
 
       {/* <button onClick={() => window.location.reload(false)}>Loggin</button> */}
       {/* <Link to="/">Submit</Link> */}
-
+x
       {/* <p>{result}</p> */}
     </div>
   );
