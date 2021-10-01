@@ -282,6 +282,6 @@ img.empty {
   margin:  0 o.2 rem;
 }
 /* qr scanner */
-.qrscanner{
-  text-align: center;
+.qrscanner>*{
+  margin: auto;
 }

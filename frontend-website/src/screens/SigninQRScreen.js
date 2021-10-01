@@ -40,13 +40,10 @@ function SigninQR(props) {
         // facingMode="environment"
         // chooseDeviceId={facingMode}
         style={previewStyle}
-        // accept="image/*"
-        // capture="environment"
+
         onError={handleError}
         onScan={handleScan}
       />
-      {/* <button onClick={() => window.location.reload(false)}>Loggin</button> */}
-      {/* <Link to="/">Submit</Link> */}x{/* <p>{result}</p> */}
     </div>
   );
 }
