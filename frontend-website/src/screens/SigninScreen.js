@@ -13,12 +13,12 @@ function SigninScreen(props) {
   const redirect = props.location.search
     ? props.location.search.split("=")[1]
     : "/";
-  const userSignin = useSelector(state => state.userSignin);
+  const userSignin = useSelector((state) => state.userSignin);
   const { userInfo, loading, error } = userSignin;
 
   const dispatch = useDispatch();
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(signin(email, password));
   };
@@ -27,19 +27,18 @@ function SigninScreen(props) {
       props.history.push(redirect);
     }
   }, [userInfo, props.history, redirect]);
-  const googleSuccess = async res => {
+  const googleSuccess = async (res) => {
     const name = res.profileObj.name ? res.profileObj.name : 1;
     const name1 = res.profileObj.email ? res.profileObj.email : 1;
     // console.log(name1);
     // const token = res.tokenId?res.tokenId:1;
     dispatch(signinGoogle(name, name1));
   };
-  const googleFailure = error => {
+  const googleFailure = (error) => {
     console.log(error);
   };
 
-  
-  const responseFacebook = response => {
+  const responseFacebook = (response) => {
     console.log(response);
     const nameFace = response.name;
     const emailFace = response.email;
@@ -62,7 +61,7 @@ function SigninScreen(props) {
             id="email"
             placeholder=" enter ur email"
             required
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           ></input>
         </div>
         <div>
@@ -72,7 +71,7 @@ function SigninScreen(props) {
             id="password"
             placeholder="inter ur password"
             required
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           ></input>
         </div>
         <div>
@@ -84,7 +83,7 @@ function SigninScreen(props) {
         </div>
         <div>
           <GoogleLogin
-            clientId="216043543519-qsm0h8a0fc2uvs0tjte6iv8jss6odrg6.apps.googleusercontent.com"
+            clientId="243963154490-84pmn0tsofddtv1ibo2dh79fkodjfgp7.apps.googleusercontent.com"
             onSuccess={googleSuccess}
             onfailure={googleFailure}
             cookiePolicy="single_host_origin"
