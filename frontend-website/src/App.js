@@ -9,6 +9,7 @@ import SigninScreen from "./screens/SigninScreen";
 import { signout } from "./actions/userAction";
 import RegisterScreen from "./screens/RegisterScreen";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen";
+import BillScreen from "./screens/BillScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import ProductListScreen from "./screens/ProductListScreen";
@@ -19,6 +20,7 @@ import OrderListScreen from "./screens/OrderListScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import PrivateRoute from "components/PrivateRoute";
 import SigninQRScreen from "screens/SigninQRScreen";
+import AdminOrder from "screens/AdminOrder";
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -43,11 +45,13 @@ function App() {
             </Link>
           </div>
           <div>
+          {userInfo ? (''):(
             <Link to="/signinqr">
               <span className="cartlogo">
                 <i className="fas fa-qrcode"></i>
               </span>
             </Link>
+          )}
 
             <Link to="/cart">
               <span className="cartlogo">
@@ -110,6 +114,9 @@ function App() {
                   <li>
                     <Link to="/userlist">users</Link>
                   </li>
+                  <li>
+                    <Link to="/adminorder">Thanh Toan</Link>
+                  </li>
                 </ul>
               </div>
             )}
@@ -127,6 +134,7 @@ function App() {
           <Route path="/signin" component={SigninScreen}></Route>
           <Route path="/register" component={RegisterScreen}></Route>
           <Route path="/shipping" component={ShippingAddressScreen}></Route>
+          <Route path="/bill/:id" component={BillScreen}></Route>
           <Route path="/payment" component={PaymentScreen}></Route>
           <Route path="/placeorder" component={PlaceOrderScreen}></Route>
           <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
@@ -139,6 +147,7 @@ function App() {
             path="/orderlist"
             component={OrderListScreen}
           ></AdminRoute>
+          <AdminRoute path="/adminorder" component={AdminOrder}></AdminRoute>
           <AdminRoute
             path="/productlist"
             component={ProductListScreen}

@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // const uri = 'mongodb://localhost/websitecnm';
 // eslint-disable-next-line no-undef
-mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/websitecnm", {
+mongoose.connect(process.env.MONGODB_URL || "mongodb+srv://acan:Acan2406%40@cluster0.iajd4.mongodb.net/websitecnm?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

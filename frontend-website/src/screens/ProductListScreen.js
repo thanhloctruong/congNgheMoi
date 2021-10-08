@@ -90,6 +90,8 @@ export default function ProductListScreen(props) {
                 <td>{product.price}</td>
                 <td>{product.category}</td>
                 <td>{product.brand}</td>
+
+                
                 <td>
                   <button
                     type="button"

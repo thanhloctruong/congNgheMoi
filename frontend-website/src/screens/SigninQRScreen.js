@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import QrReader from "react-qr-reader";
 import { useDispatch, useSelector } from "react-redux";
 import { signinQr } from "actions/userAction";
-import { USER_SIGNINQR_RESET } from "constants/userConstants";
+// import { USER_SIGNINQR_RESET } from "constants/userConstants";
 
 function SigninQR(props) {
   const [result, setResult] = useState("");
