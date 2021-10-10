@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 import QRCode from "qrcode.react";
@@ -7,6 +8,9 @@ import AdminRoute from "./components/AdminRoute";
 import { useSelector, useDispatch } from "react-redux";
 import SigninScreen from "./screens/SigninScreen";
 import { signout } from "./actions/userAction";
+import { listProductCategories } from './actions/productActions';
+import LoadingBox from './components/LoadingBox';
+import MessageBox from './components/MessageBox';
 import RegisterScreen from "./screens/RegisterScreen";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen";
 import BillScreen from "./screens/BillScreen";
@@ -21,10 +25,15 @@ import ProfileScreen from "./screens/ProfileScreen";
 import PrivateRoute from "components/PrivateRoute";
 import SigninQRScreen from "screens/SigninQRScreen";
 import AdminOrder from "screens/AdminOrder";
+import UserListScreen from "screens/UserListScreen";
+import UserEditScreen from "screens/UserEditScreen";
+import SearchBox from "components/SearchBox";
+import SearchScreen from "screens/SearchScreen";
 
 function App() {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const userSignin = useSelector((state) => state.userSignin);
   // console.log(userSignin);
   const { userInfo } = userSignin;
@@ -35,23 +44,48 @@ function App() {
   const handleSignOut = () => {
     dispatch(signout());
   };
+  const productCategoryList = useSelector((state) => state.productCategoryList);
+  const {
+    loading: loadingCategories,
+    error: errorCategories,
+    categories,
+  } = productCategoryList;
+  useEffect(() => {
+    dispatch(listProductCategories());
+  }, [dispatch]);
   return (
     <Router>
       <div className="grid-container">
         <header className="row">
           <div>
+          <button
+              type="button"
+              className="open-sidebar"
+              onClick={() => setSidebarIsOpen(true)}
+            >
+              <i className="fa fa-bars"></i>
+            </button>
             <Link className="brand" to="/">
               ACan
             </Link>
           </div>
           <div>
-          {userInfo ? (''):(
-            <Link to="/signinqr">
-              <span className="cartlogo">
-                <i className="fas fa-qrcode"></i>
-              </span>
-            </Link>
-          )}
+            <Route
+              render={({ history }) => (
+                <SearchBox history={history}></SearchBox>
+              )}
+            ></Route>
+          </div>
+          <div>
+            {userInfo ? (
+              ""
+            ) : (
+              <Link to="/signinqr">
+                <span className="cartlogo">
+                  <i className="fas fa-qrcode"></i>
+                </span>
+              </Link>
+            )}
 
             <Link to="/cart">
               <span className="cartlogo">
@@ -77,7 +111,7 @@ function App() {
                   </li>
 
                   <li>
-                    <Link to="#signout" onClick={handleSignOut}>
+                    <Link to="/" onClick={handleSignOut}>
                       Sign Outs
                     </Link>
                   </li>
@@ -122,6 +156,36 @@ function App() {
             )}
           </div>
         </header>
+        <aside className={sidebarIsOpen ? 'open' : ''}>
+          <ul className="categories">
+            <li>
+              <strong>Categories</strong>
+              <button
+                onClick={() => setSidebarIsOpen(false)}
+                className="close-sidebar"
+                type="button"
+              >
+                <i className="fa fa-close"></i>
+              </button>
+            </li>
+            {loadingCategories ? (
+              <LoadingBox></LoadingBox>
+            ) : errorCategories ? (
+              <MessageBox variant="danger">{errorCategories}</MessageBox>
+            ) : (
+              categories.map((c) => (
+                <li key={c}>
+                  <Link
+                    to={`/search/category/${c}`}
+                    onClick={() => setSidebarIsOpen(false)}
+                  >
+                    {c}
+                  </Link>
+                </li>
+              ))
+            )}
+          </ul>
+        </aside>
         <main>
           <Route path="/signinqr" component={SigninQRScreen}></Route>
           <Route path="/cart/:id?" component={CartScreen}></Route>
@@ -139,6 +203,21 @@ function App() {
           <Route path="/placeorder" component={PlaceOrderScreen}></Route>
           <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
           <Route path="/order/:id" component={OrderScreen}></Route>
+          <Route
+            path="/search/name/:name?"
+            component={SearchScreen}
+            exact
+          ></Route>
+          <Route
+            path="/search/category/:category"
+            component={SearchScreen}
+            exact
+          ></Route>
+          <Route
+            path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order"
+            component={SearchScreen}
+            exact
+          ></Route>
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}
@@ -151,6 +230,11 @@ function App() {
           <AdminRoute
             path="/productlist"
             component={ProductListScreen}
+          ></AdminRoute>
+          <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>
+          <AdminRoute
+            path="/user/:id/edit"
+            component={UserEditScreen}
           ></AdminRoute>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
