@@ -1,4 +1,4 @@
-import http from "http";
+const { createServer } = require("http");
 const { Server } = require("socket.io");
 import express from "express";
 import mongoose from "mongoose";
@@ -59,7 +59,7 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 5000;
 
 // const httpServer = https.Server(app);
-const httpServer = http.createServer(app);
+const httpServer = createServer(app);
 const io = new Server(httpServer, { cors: { origin: "*" } });
 const users = [];
 io.on("connection", (socket) => {
