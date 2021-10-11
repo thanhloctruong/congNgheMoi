@@ -1,5 +1,6 @@
 
 import express from "express";
+import path from 'path';
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import path from "path";
@@ -10,7 +11,8 @@ import uploadRouter from "./routers/uploadRouter.js";
 
 dotenv.config();
 const app = express();
-const server = require('http').createServer(app);
+import http from 'http';
+const server = http.createServer(app);
 const io = require('socket.io')(server,{ cors: { origin: "*" } });
 
 app.use(express.json());
