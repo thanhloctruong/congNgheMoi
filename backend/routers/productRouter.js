@@ -20,6 +20,7 @@ productRouter.get(
       req.query.rating && Number(req.query.rating) !== 0
         ? Number(req.query.rating)
         : 0;
+
     const nameFilter = name ? { name: { $regex: name, $options: "i" } } : {};
     const categoryFilter = category ? { category } : {};
     const priceFilter = min && max ? { price: { $gte: min, $lte: max } } : {};
