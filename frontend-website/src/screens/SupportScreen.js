@@ -8,7 +8,7 @@ let allMessages = [];
 let allSelectedUser = {};
 const ENDPOINT =
   window.location.host.indexOf('localhost') >= 0
-    ? 'http://localhost:5000'
+    ? 'https://website-congnghemoi.herokuapp.com'
     : window.location.host;
 
 export default function SupportScreen() {

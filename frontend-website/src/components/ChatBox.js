@@ -3,7 +3,7 @@ import socketIOClient from 'socket.io-client';
 
 const ENDPOINT =
   window.location.host.indexOf('localhost') >= 0
-    ? 'http://localhost:5000'
+    ? 'https://website-congnghemoi.herokuapp.com'
     : window.location.host;
 
 export default function ChatBox(props) {
