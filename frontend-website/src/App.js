@@ -29,6 +29,9 @@ import UserListScreen from "screens/UserListScreen";
 import UserEditScreen from "screens/UserEditScreen";
 import SearchBox from "components/SearchBox";
 import SearchScreen from "screens/SearchScreen";
+import DashboardScreen from 'screens/DashboardScreen';
+import SupportScreen from 'screens/SupportScreen';
+import ChatBox from 'components/ChatBox';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -149,6 +152,9 @@ function App() {
                     <Link to="/userlist">users</Link>
                   </li>
                   <li>
+                    <Link to="/support">Support</Link>
+                  </li>
+                  <li>
                     <Link to="/adminorder">Thanh Toan</Link>
                   </li>
                 </ul>
@@ -214,7 +220,7 @@ function App() {
             exact
           ></Route>
           <Route
-            path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order"
+             path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order/pageNumber/:pageNumber"
             component={SearchScreen}
             exact
           ></Route>
@@ -222,6 +228,11 @@ function App() {
             path="/profile"
             component={ProfileScreen}
           ></PrivateRoute>
+          <AdminRoute
+            path="/productlist/pageNumber/:pageNumber"
+            component={ProductListScreen}
+            exact
+          ></AdminRoute>
           <AdminRoute
             path="/orderlist"
             component={OrderListScreen}
@@ -232,13 +243,22 @@ function App() {
             component={ProductListScreen}
           ></AdminRoute>
           <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>
+          <AdminRoute path="/support" component={SupportScreen}></AdminRoute>
           <AdminRoute
             path="/user/:id/edit"
             component={UserEditScreen}
           ></AdminRoute>
+          <AdminRoute
+            path="/dashboard"
+            component={DashboardScreen}
+          ></AdminRoute>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
-        <footer className="row center">coppy right ACan @2021</footer>
+        <footer className="row center">
+        {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
+        <div>
+        coppy right ACan @2021
+        </div></footer>
       </div>
     </Router>
   );

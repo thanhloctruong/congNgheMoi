@@ -23,7 +23,7 @@ import {
 } from "../constants/productConstants";
 import Axios from "axios";
 
-export const listProducts = ({ name = '',category = '', order = '',
+export const listProducts = ({ pageNumber = '',name = '',category = '', order = '',
 min = 0,
 max = 0,
 rating = 0,}) => async (
@@ -33,7 +33,7 @@ rating = 0,}) => async (
     type: PRODUCT_LIST_REQUEST
   });
   try {
-    const { data } = await Axios.get(`/api/products?name=${name}&category=${category}&min=${min}&max=${max}&rating=${rating}&order=${order}`);
+    const { data } = await Axios.get(`/api/products?pageNumber=${pageNumber}&name=${name}&category=${category}&min=${min}&max=${max}&rating=${rating}&order=${order}`);
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message });
@@ -117,6 +117,7 @@ export const deleteProduct = productId => async (dispatch, getState) => {
     userSignin: { userInfo }
   } = getState();
   try {
+    // eslint-disable-next-line no-unused-vars
     const { data } = Axios.delete(`/api/products/${productId}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` }
     });

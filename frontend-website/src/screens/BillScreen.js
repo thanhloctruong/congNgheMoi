@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,15 +14,11 @@ function BillScreen(props) {
 
   const orderPay = useSelector((state) => state.orderPay);
   const {
-    loading: loadingPay,
-    error: errorPay,
     success: successPay
   } = orderPay;
 
   const orderDeliver = useSelector((state) => state.orderDeliver);
   const {
-    loading: loadingDeliver,
-    error: errorDeliver,
     success: successDeliver
   } = orderDeliver;
 

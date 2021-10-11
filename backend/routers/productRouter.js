@@ -7,6 +7,8 @@ const productRouter = express.Router();
 productRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
+    const pageSize = 3;
+    const page = Number(req.query.pageNumber) || 1;
     const name = req.query.name || "";
     const category = req.query.category || "";
     const order = req.query.order || "";
@@ -30,18 +32,26 @@ productRouter.get(
         : order === "toprated"
         ? { rating: -1 }
         : { _id: -1 };
-
+    const count = await Product.count({
+      ...nameFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter
+    });
     const products = await Product.find({
       ...nameFilter,
       ...categoryFilter,
       ...priceFilter,
       ...ratingFilter
-    }).sort(sortOrder);
-    res.send(products);
+    })
+      .sort(sortOrder)
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
+    res.send({ products, page, pages: Math.ceil(count / pageSize) });
   })
 );
 productRouter.post(
-  '/:id/reviews',
+  "/:id/reviews",
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
@@ -50,12 +60,12 @@ productRouter.post(
       if (product.reviews.find((x) => x.name === req.user.name)) {
         return res
           .status(400)
-          .send({ message: 'You already submitted a review' });
+          .send({ message: "You already submitted a review" });
       }
       const review = {
         name: req.user.name,
         rating: Number(req.body.rating),
-        comment: req.body.comment,
+        comment: req.body.comment
       };
       product.reviews.push(review);
       product.numReviews = product.reviews.length;
@@ -64,11 +74,11 @@ productRouter.post(
         product.reviews.length;
       const updatedProduct = await product.save();
       res.status(201).send({
-        message: 'Review Created',
-        review: updatedProduct.reviews[updatedProduct.reviews.length - 1],
+        message: "Review Created",
+        review: updatedProduct.reviews[updatedProduct.reviews.length - 1]
       });
     } else {
-      res.status(404).send({ message: 'Product Not Found' });
+      res.status(404).send({ message: "Product Not Found" });
     }
   })
 );

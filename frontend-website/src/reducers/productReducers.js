@@ -73,7 +73,10 @@ export const productCreateReducer = (state = {}, action) => {
     case PRODUCT_CREATE_REQUEST:
       return { loading: true };
     case PRODUCT_CREATE_SUCCESS:
-      return { loading: false, success: true, product: action.payload };
+      return {  loading: false,
+        products: action.payload.products,
+        pages: action.payload.pages,
+        page: action.payload.page, };
     case PRODUCT_CREATE_FAIL:
       return { loading: false, error: action.payload };
     case PRODUCT_CREATE_RESET:
