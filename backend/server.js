@@ -1,4 +1,4 @@
-import https from 'https';
+import https from 'http';
 import { Server } from 'socket.io';
 import express from "express";
 import mongoose from "mongoose";
@@ -58,7 +58,6 @@ const port = process.env.PORT || 5000;
 const httpServer = https.Server(app);
 const io = new Server(httpServer, { cors: { origin: '*' } });
 const users = [];
-
 io.on('connection', (socket) => {
   console.log('connection', socket.id);
   socket.on('disconnect', () => {
