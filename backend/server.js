@@ -1,5 +1,4 @@
-const { createServer } = require("http");
-const { Server } = require("socket.io");
+
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -11,6 +10,9 @@ import uploadRouter from "./routers/uploadRouter.js";
 
 dotenv.config();
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server,{ cors: { origin: "*" } });
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // const uri = 'mongodb://localhost/websitecnm';
@@ -59,8 +61,8 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 5000;
 
 // const httpServer = https.Server(app);
-const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: { origin: "*" } });
+// const httpServer = createServer(app);
+// const io = new Server(httpServer, { cors: { origin: "*" } });
 const users = [];
 io.on("connection", (socket) => {
   console.log("connection", socket.id);
