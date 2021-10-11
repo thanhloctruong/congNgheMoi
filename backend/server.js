@@ -1,4 +1,4 @@
-import https from "http";
+import http from "http";
 import { Server } from "socket.io";
 import express from "express";
 import mongoose from "mongoose";
@@ -51,16 +51,15 @@ app.get("*", (req, res) =>
 // app.get("/", (req, res) => {
 //   res.send("server is already");
 // });
-// eslint-disable-next-line no-unused-vars
+
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-// eslint-disable-next-line no-undef
 const port = process.env.PORT || 5000;
 
 // const httpServer = https.Server(app);
-const httpServer = https.createServer(app);
+const httpServer = http.createServer(app);
 const io = new Server(httpServer, { cors: { origin: "*" } });
 const users = [];
 io.on("connection", (socket) => {
