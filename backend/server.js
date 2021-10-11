@@ -1,4 +1,4 @@
-import https from 'https';
+import http from 'http';
 import { Server } from 'socket.io';
 import express from "express";
 import mongoose from "mongoose";
@@ -55,7 +55,7 @@ app.use((err, req, res, next) => {
 // eslint-disable-next-line no-undef
 const port = process.env.PORT || 5000;
 
-const httpServer = https.Server(app);
+const httpServer = http.Server(app);
 const io = new Server(httpServer, { cors: { origin: '*' } });
 const users = [];
 
