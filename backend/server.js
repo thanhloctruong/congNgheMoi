@@ -1,5 +1,5 @@
-import https from 'http';
-import { Server } from 'socket.io';
+import https from "http";
+import { Server } from "socket.io";
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -15,10 +15,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // const uri = 'mongodb://localhost/websitecnm';
 // eslint-disable-next-line no-undef
-mongoose.connect(process.env.MONGODB_URL || "mongodb+srv://acan:Acan2406%40@cluster0.iajd4.mongodb.net/websitecnm?retryWrites=true&w=majority", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect(
+  process.env.MONGODB_URL ||
+    "mongodb+srv://acan:Acan2406%40@cluster0.iajd4.mongodb.net/websitecnm?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+);
 // main().catch(err => console.log(err));
 // async function main() {
 //   await mongoose.connect('mongodb://localhost:27017/test');
@@ -40,9 +44,9 @@ app.get("/api/config/paypal", (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || "sb");
 });
 // deploy heroku
-app.use(express.static(path.join(__dirname, '/frontend-website/build')));
-app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '/frontend-website/build/index.html'))
+app.use(express.static(path.join(__dirname, "/frontend-website/build")));
+app.get("*", (req, res) =>
+  res.sendFile(path.join(__dirname, "/frontend-website/build/index.html"))
 );
 // app.get("/", (req, res) => {
 //   res.send("server is already");
@@ -56,28 +60,28 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 5000;
 
 // const httpServer = https.Server(app);
-const httpServer = https.createServer();
-const io = new Server(httpServer, { cors: { origin: '*' } });
+const httpServer = https.createServer(app);
+const io = new Server(httpServer, { cors: { origin: "*" } });
 const users = [];
-io.on('connection', (socket) => {
-  console.log('connection', socket.id);
-  socket.on('disconnect', () => {
+io.on("connection", (socket) => {
+  console.log("connection", socket.id);
+  socket.on("disconnect", () => {
     const user = users.find((x) => x.socketId === socket.id);
     if (user) {
       user.online = false;
-      console.log('Offline', user.name);
+      console.log("Offline", user.name);
       const admin = users.find((x) => x.isAdmin && x.online);
       if (admin) {
-        io.to(admin.socketId).emit('updateUser', user);
+        io.to(admin.socketId).emit("updateUser", user);
       }
     }
   });
-  socket.on('onLogin', (user) => {
+  socket.on("onLogin", (user) => {
     const updatedUser = {
       ...user,
       online: true,
       socketId: socket.id,
-      messages: [],
+      messages: []
     };
     const existUser = users.find((x) => x._id === updatedUser._id);
     if (existUser) {
@@ -86,41 +90,41 @@ io.on('connection', (socket) => {
     } else {
       users.push(updatedUser);
     }
-    console.log('Online', user.name);
+    console.log("Online", user.name);
     const admin = users.find((x) => x.isAdmin && x.online);
     if (admin) {
-      io.to(admin.socketId).emit('updateUser', updatedUser);
+      io.to(admin.socketId).emit("updateUser", updatedUser);
     }
     if (updatedUser.isAdmin) {
-      io.to(updatedUser.socketId).emit('listUsers', users);
+      io.to(updatedUser.socketId).emit("listUsers", users);
     }
   });
 
-  socket.on('onUserSelected', (user) => {
+  socket.on("onUserSelected", (user) => {
     const admin = users.find((x) => x.isAdmin && x.online);
     if (admin) {
       const existUser = users.find((x) => x._id === user._id);
-      io.to(admin.socketId).emit('selectUser', existUser);
+      io.to(admin.socketId).emit("selectUser", existUser);
     }
   });
 
-  socket.on('onMessage', (message) => {
+  socket.on("onMessage", (message) => {
     if (message.isAdmin) {
       const user = users.find((x) => x._id === message._id && x.online);
       if (user) {
-        io.to(user.socketId).emit('message', message);
+        io.to(user.socketId).emit("message", message);
         user.messages.push(message);
       }
     } else {
       const admin = users.find((x) => x.isAdmin && x.online);
       if (admin) {
-        io.to(admin.socketId).emit('message', message);
+        io.to(admin.socketId).emit("message", message);
         const user = users.find((x) => x._id === message._id && x.online);
         user.messages.push(message);
       } else {
-        io.to(socket.id).emit('message', {
-          name: 'Admin',
-          body: 'Sorry. I am not online right now',
+        io.to(socket.id).emit("message", {
+          name: "Admin",
+          body: "Sorry. I am not online right now"
         });
       }
     }
@@ -134,4 +138,3 @@ httpServer.listen(port, () => {
 // app.listen(port, () => {
 //   console.log(`Serve at http://localhost:${port}`);
 // });
-
