@@ -96,7 +96,7 @@ function OrderScreen(props) {
                 </p>
                 {order.isDelivered ? (
                   <MessageBox variant="success">
-                    Delivered at {order.deliveredAt}
+                    Delivered at {order.deliveredAt.substring(0, 10)}
                   </MessageBox>
                 ) : (
                   <MessageBox variant="danger"> not Delivered</MessageBox>

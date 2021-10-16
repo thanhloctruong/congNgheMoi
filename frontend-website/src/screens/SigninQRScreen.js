@@ -29,18 +29,14 @@ function SigninQR(props) {
   const handleError = (err) => {
     console.error(err);
   };
-  const previewStyle = {
-    height: 500,
-    width: 500
-  };
+  
   return (
     <div className="qrscanner">
       <QrReader
         delay={1000}
         // facingMode="environment"
         // chooseDeviceId={facingMode}
-        style={previewStyle}
-
+        className= 'qrscanner'
         onError={handleError}
         onScan={handleScan}
       />

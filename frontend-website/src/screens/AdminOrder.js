@@ -74,7 +74,7 @@ function AdminOrder(props) {
   }, [dispatch, order, success, props.history]);
   return (
     <div className="row top">
-      <div className="col-2">
+      <div className="col-1">
         <h1>Shopping cart</h1>
         {cartItems.length === 0 ? (
           <div>empty</div>

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import mg from 'mailgun-js';
-export const generateToken = user => {
+import mg from "mailgun-js";
+export const generateToken = (user) => {
   return jwt.sign(
     {
       _id: user._id,
@@ -29,7 +29,6 @@ export const qrToken = () => {
   );
 };
 
-
 export const isAuth = (req, res, next) => {
   const authorization = req.headers.authorization;
   if (authorization) {
@@ -51,7 +50,7 @@ export const isAuth = (req, res, next) => {
 };
 
 export const isAdmin = (req, res, next) => {
-  if(req.user && req.user.isAdmin) {
+  if (req.user && req.user.isAdmin) {
     next();
   } else {
     res.status(401).send({ message: "Invalid Admin Token" });
@@ -60,9 +59,9 @@ export const isAdmin = (req, res, next) => {
 export const mailgun = () =>
   mg({
     // eslint-disable-next-line no-undef
-    apiKey: process.env.MAILGUN_API_KEY,
+    apiKey: "e346af107151a38d951c0e0aaf59a885-2ac825a1-f37ebc5a",
     // eslint-disable-next-line no-undef
-    domain: process.env.MAILGUN_DOMAIN,
+    domain: "sandbox14597c3299014e018946274b96913514.mailgun.org"
   });
 
 export const payOrderEmailTemplate = (order) => {
@@ -89,7 +88,7 @@ export const payOrderEmailTemplate = (order) => {
     </tr>
   `
     )
-    .join('\n')}
+    .join("\n")}
   </tbody>
   <tfoot>
   <tr>

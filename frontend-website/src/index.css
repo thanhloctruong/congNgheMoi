@@ -83,9 +83,8 @@ button {
 .pagination a.active {
   font-weight: bold;
 }
-.product__img{
+.product__img {
   width: 34rem;
-  
 }
 button {
   background-color: #f8f8f8;
@@ -103,7 +102,7 @@ button.primary {
 button.block {
   width: 100%;
 }
-button.google{
+button.google {
   background-color: #e95050;
 }
 h1 {
@@ -237,12 +236,12 @@ img.empty {
 }
 .form label {
   margin: 1rem 0;
-
 }
 /* dropdown  */
 .dropdown {
   display: inline-block;
   position: relative;
+  z-index: 2;
 }
 .dropdown-content {
   position: absolute;
@@ -283,24 +282,30 @@ img.empty {
 }
 
 /* table */
-.table{
+.table {
   width: 100%;
   border-collapse: collapse;
 }
-.table tbody tr:nth-last-of-type(odd){
+.table tbody tr:nth-last-of-type(odd) {
   background-color: #f8f8f8;
 }
-.table td, .table th {
+.table td,
+.table th {
   text-align: left;
-  border: 0,1rem solid #e0e0ff;
+  border: 0, 1rem solid #e0e0ff;
   padding: 0.5rem;
 }
-.table button{
-  margin:  0 o.2 rem;
+.table button {
+  margin: 0 o.2 rem;
 }
 /* qr scanner */
-.qrscanner>*{
+.qrscanner{
+  height: 50rem;
+  width: 50rem;
+}
+.qrscanner > * {
   margin: auto;
+
 }
 /* Search */
 .search button {
@@ -455,4 +460,31 @@ button.close-sidebar {
 }
 .support-users .unread {
   background-color: #f02020;
+}
+/* chat */
+.chatScreen__text {
+  margin-left: 10px;
+  background-color: lightgray;
+  padding: 15px;
+  width: max-content;
+  border-radius: 20px;
+}
+.chatScreen__textUser {
+  margin-left: auto;
+  background-color: #00a2ec;
+  padding: 15px;
+  border-radius: 20px;
+  width: max-content;
+}
+/* responsive */
+@media (max-width: 739px) {
+.brand{
+  display: none;
+}
+.search input{
+  width: auto;
+}
+.qrscanner{
+  width: auto;
+}
 }

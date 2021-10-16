@@ -43,7 +43,7 @@ export default function UserListScreen(props) {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th></th>
               <th>NAME</th>
               <th>EMAIL</th>
               <th>IS ADMIN</th>
@@ -53,7 +53,7 @@ export default function UserListScreen(props) {
           <tbody>
             {users.map(user => (
                 <tr key={user._id}>
-                <td>{user._id}</td>
+                <td>{}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
