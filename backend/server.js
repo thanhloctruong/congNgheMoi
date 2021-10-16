@@ -56,7 +56,7 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
 const httpServer = http.Server(app);
 // const httpServer = createServer(app);
@@ -130,8 +130,8 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(PORT, () => {
-  console.log(`Serve at http://localhost:${PORT}`);
+httpServer.listen(port, () => {
+  console.log(`Serve at http://localhost:${port}`);
 });
 
 // app.listen(PORT, () => {
