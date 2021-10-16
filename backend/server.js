@@ -1,7 +1,6 @@
-
 import express from "express";
-import http from 'http';
-import { Server } from 'socket.io';
+import http from "http";
+import { Server } from "socket.io";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import path from "path";
@@ -13,11 +12,10 @@ import uploadRouter from "./routers/uploadRouter.js";
 dotenv.config();
 const app = express();
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // const uri = 'mongodb://localhost/websitecnm';
-// eslint-disable-next-line no-undef
+
 mongoose.connect(
   process.env.MONGODB_URL ||
     "mongodb+srv://acan:Acan2406%40@cluster0.iajd4.mongodb.net/websitecnm?retryWrites=true&w=majority",
@@ -43,7 +41,6 @@ const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.get("/api/config/paypal", (req, res) => {
-  // eslint-disable-next-line no-undef
   res.send(process.env.PAYPAL_CLIENT_ID || "sb");
 });
 // deploy heroku
@@ -59,7 +56,7 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 const httpServer = http.Server(app);
 // const httpServer = createServer(app);
@@ -133,10 +130,10 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(port, () => {
-  console.log(`Serve at http://localhost:${port}`);
+httpServer.listen(PORT, () => {
+  console.log(`Serve at http://localhost:${PORT}`);
 });
 
-// app.listen(port, () => {
-//   console.log(`Serve at http://localhost:${port}`);
+// app.listen(PORT, () => {
+//   console.log(`Serve at http://localhost:${PORT}`);
 // });
