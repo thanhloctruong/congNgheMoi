@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
 
 const ENDPOINT =
-  window.location.host.indexOf("website-congnghemoi.herokuapp.com") >= 0
-    ? "https://website-congnghemoi.herokuapp.com"
+  window.location.host.indexOf("congnghemoiacan.herokuapp.com") >= 0
+    ? "https://congnghemoiacan.herokuapp.com"
     : window.location.host;
 
 export default function ChatBox(props) {
