@@ -143,7 +143,7 @@ function App() {
                     <Link to="/dashboard">dashboard</Link>
                   </li>
                   <li>
-                    <Link to="/productlist">productlist</Link>
+                    <Link to="/productlist/pageNumber/:pageNumber">productlist</Link>
                   </li>
                   <li>
                     <Link to="/orderlist">order</Link>
@@ -238,10 +238,10 @@ function App() {
             component={OrderListScreen}
           ></AdminRoute>
           <AdminRoute path="/adminorder" component={AdminOrder}></AdminRoute>
-          <AdminRoute
+          {/* <AdminRoute
             path="/productlist"
             component={ProductListScreen}
-          ></AdminRoute>
+          ></AdminRoute> */}
           <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>
           <AdminRoute path="/support" component={SupportScreen}></AdminRoute>
           <AdminRoute

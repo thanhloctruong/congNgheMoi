@@ -59,6 +59,7 @@ export default function ProductListScreen(props) {
 
   const createHandler = () => {
     dispatch(createProduct());
+    
   };
 
   return (
@@ -82,7 +83,7 @@ export default function ProductListScreen(props) {
           <table className="table">
             <thead>
               <tr>
-                <th></th>
+                <th>INDEX</th>
                 <th>NAME</th>
                 <th>PRICE</th>
                 <th>CATEGORY</th>
@@ -91,9 +92,9 @@ export default function ProductListScreen(props) {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <tr key={product._id}>
-                  <td>{}</td>
+                  <td>{index+1}</td>
                   <td>{product.name}</td>
                   <td>{product.price}</td>
                   <td>{product.category}</td>
