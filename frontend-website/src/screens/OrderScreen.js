@@ -12,6 +12,7 @@ function OrderScreen(props) {
   const orderId = props.match.params.id;
   const [sdkReady, setSdkReady] = useState(false);
   const orderDetails = useSelector(state => state.orderDetails);
+  console.log(orderDetails);
   const { error, loading, order } = orderDetails;
 
   const userSignin = useSelector((state) => state.userSignin);
@@ -35,7 +36,7 @@ function OrderScreen(props) {
   useEffect(() => {
     const addPayPalScript = async () => {
       const { data } = await axios.get("/api/config/paypal");
-      // console.log(data);
+      console.log(data);
       const script = document.createElement("script");
       script.type = "text/javascript";
       script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
@@ -63,7 +64,7 @@ function OrderScreen(props) {
         }
       }
     }
-  },  [dispatch, order, orderId, sdkReady, successPay, successDeliver]);
+  },  [dispatch, orderId, sdkReady, successPay, successDeliver, order]);
   const handleSuccessPayment = paymentResult => {
     dispatch(payOrder(order, paymentResult));
   };
@@ -96,7 +97,7 @@ function OrderScreen(props) {
                 </p>
                 {order.isDelivered ? (
                   <MessageBox variant="success">
-                    Delivered at {order.deliveredAt}
+                    Delivered at {order.deliveredAt.substring(0, 10)}
                   </MessageBox>
                 ) : (
                   <MessageBox variant="danger"> not Delivered</MessageBox>

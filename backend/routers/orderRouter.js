@@ -1,13 +1,15 @@
 import express from "express";
-import expressAsyncHanler from "express-async-handler";
+import expressAsyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
-import { isAuth, isAdmin } from "../untils.js";
+import User from '../models/userModel.js';
+import Product from '../models/productModel.js';
+import { isAuth, isAdmin, payOrderEmailTemplate, transporter, mailOptions } from "../untils.js";
 
 const orderRouter = express();
 orderRouter.get(
   "/mine",
   isAuth,
-  expressAsyncHanler(async (req, res) => {
+  expressAsyncHandler(async (req, res) => {
     const orders = await Order.find({ user: req.user._id });
     res.send(orders);
   })
@@ -15,7 +17,7 @@ orderRouter.get(
 orderRouter.post(
   "/",
   isAuth,
-  expressAsyncHanler(async (req, res) => {
+  expressAsyncHandler(async (req, res) => {
     if (req.body.orderItems.length === 0) {
       res.status(400).send({ message: "Cart is empty" });
     } else {
@@ -36,15 +38,99 @@ orderRouter.post(
     }
   })
 );
+orderRouter.post(
+  "/admin",
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    if (req.body.orderItems.length === 0) {
+      res.status(400).send({ message: "Cart is empty" });
+    } else {
+      const order = new Order({
+        orderItems: req.body.orderItems,
+        shippingAddress: req.body.shippingAddress,
+        paymentMethod: req.body.paymentMethod,
+        itemsPrice: req.body.itemsPrice,
+        shippingPrice: req.body.shippingPrice,
+        taxPrice: req.body.taxPrice,
+        totalPrice: req.body.totalPrice,
+        user: req.user._id
+      });
+      const createdOrder = await order.save();
+      res
+        .status(201)
+        .send({ message: "New Order Created", order: createdOrder });
+    }
+  })
+);
+orderRouter.get(
+  '/summary',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const orders = await Order.aggregate([
+      {
+        $group: {
+          _id: null,
+          numOrders: { $sum: 1 },
+          totalSales: { $sum: '$totalPrice' },
+        },
+      },
+    ]);
+    const users = await User.aggregate([
+      {
+        $group: {
+          _id: null,
+          numUsers: { $sum: 1 },
+        },
+      },
+    ]);
+    const dailyOrders = await Order.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          orders: { $sum: 1 },
+          sales: { $sum: '$totalPrice' },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+    const productCategories = await Product.aggregate([
+      {
+        $group: {
+          _id: '$category',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    res.send({ users, orders, dailyOrders, productCategories });
+  })
+);
+// orderRouter.get('/test', async (req, res) => {
+//   transporter.sendMail(
+//     {
+//       from: 'thanhloctruong201@gmail.com',
+//       to: 'thanhloctruong102@gmail.com',
+//       subject: 'Sending Email using Node.js',
+//       text: 'That was easy!',
+//       html: `<h1>hello world</h1>`
+//     }, function (error, info) {
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         console.log('Email sent: ' + info.response);
+//       }
+//     });
+// })
 
 orderRouter.get(
   "/:id",
   isAuth,
-  expressAsyncHanler(async (req, res) => {
+  expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (order) {
       res.send(order);
-      console.log(order);
+      // console.log(order);
     } else {
       res.status(404).send({ message: "order not found" });
     }
@@ -54,8 +140,25 @@ orderRouter.get(
 orderRouter.put(
   "/:id/pay",
   isAuth,
-  expressAsyncHanler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id).populate(
+      'user',
+      'email name'
+    );
+    transporter.sendMail(
+      {
+        from: 'thanhloctruong201@gmail.com',
+        to: 'thanhloctruong102@gmail.com',
+        subject: 'Sending Email using Node.js',
+        text: 'That was easy!',
+        html: payOrderEmailTemplate(order)
+      }, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
     if (order) {
       order.isPaid = true;
       order.paidAt = Date.now();
@@ -66,6 +169,7 @@ orderRouter.put(
         email_address: req.body.email_address
       };
       const updatedOrder = await order.save();
+      
       res.send({ message: "Order Paid", order: updatedOrder });
     } else {
       res.status(404).send({ message: " Order not found" });
@@ -76,7 +180,7 @@ orderRouter.get(
   "/",
   isAuth,
   isAdmin,
-  expressAsyncHanler(async (req, res) => {
+  expressAsyncHandler(async (req, res) => {
     const orders = await Order.find({}).populate("user", "name");
     res.send(orders);
   })
@@ -85,7 +189,7 @@ orderRouter.delete(
   "/:id",
   isAuth,
   isAdmin,
-  expressAsyncHanler(async (req, res) => {
+  expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (order) {
       const deleteOrder = await order.remove();
@@ -99,7 +203,7 @@ orderRouter.put(
   "/:id/deliver",
   isAuth,
   isAdmin,
-  expressAsyncHanler(async (req, res) => {
+  expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (order) {
       order.isDelivered = true;
