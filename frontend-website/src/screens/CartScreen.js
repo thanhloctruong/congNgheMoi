@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { addToCart, removeCart } from "../actions/cartActions";
 import { useDispatch, useSelector } from "react-redux";
+import { Col, Row } from "react-bootstrap";
 // import MessageBox from "../components/MessageBox";
 
 function CartScreen(props) {
@@ -27,21 +28,22 @@ function CartScreen(props) {
     props.history.push("/signin?redirect=shipping");
   };
   return (
-    <div className="row top">
-      <div className="col-2">
+    <Row>
         <h1>Shopping cart</h1>
+      <Col md={8}>
         {cartItems.length === 0 ? (
           <div>
             <img src="/img/empty-cart.png" alt="empty-cart" className='empty'></img>
             <div>
-            <Link to="/">Go Shopping</Link>
+              <Link to="/">Go Shopping</Link>
             </div>
           </div>
         ) : (
           <ul>
             {cartItems.map(item => (
               <li key={item.product}>
-                <div className="row">
+                <Row>
+                  <Col md={6}>
                   <div>
                     <img
                       src={item.image}
@@ -52,12 +54,13 @@ function CartScreen(props) {
                   <div className="min-30">
                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </div>
-                  <div>
-                    <select
+                  </Col>
+                  <Col md={2}>
+                  <select
                       value={item.qty}
                       onChange={e =>
                         dispatch(
-                          addToCart(item.product,Number(e.target.value))
+                          addToCart(item.product, Number(e.target.value))
                         )
                       }
                     >
@@ -67,23 +70,25 @@ function CartScreen(props) {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </Col>
+                  <Col md={2}>
                   <div>${item.price}</div>
-                  <div>
-                    <button
+                  </Col>
+                  <Col md={2}>
+                  <button
                       type="button"
                       onClick={() => handleRemoveCart(item.product)}
                     >
                       DELETE
                     </button>
-                  </div>
-                </div>
+                  </Col>
+                </Row>
               </li>
             ))}
           </ul>
         )}
-      </div>
-      <div className="col-1">
+      </Col>
+      <Col md={4}>
         <div className="card card-body">
           <ul>
             <li>
@@ -104,8 +109,8 @@ function CartScreen(props) {
             </li>
           </ul>
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
   );
 }
 

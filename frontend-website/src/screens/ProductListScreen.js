@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -59,7 +60,6 @@ export default function ProductListScreen(props) {
 
   const createHandler = () => {
     dispatch(createProduct());
-    
   };
 
   return (
@@ -94,7 +94,7 @@ export default function ProductListScreen(props) {
             <tbody>
               {products.map((product, index) => (
                 <tr key={product._id}>
-                  <td>{index+1}</td>
+                  <td>{index + 1}</td>
                   <td>{product.name}</td>
                   <td>{product.price}</td>
                   <td>{product.category}</td>
@@ -121,8 +121,17 @@ export default function ProductListScreen(props) {
               ))}
             </tbody>
           </table>
-          <div className="row center pagination">
+         
+        </>
+      )}
+       <Pagination style={{justifyContent: 'center'}}>
+            <Link
+              to={`/productlist/pageNumber/1`}
+            >
+              <Pagination.First />
+            </Link>
             {[...Array(pages).keys()].map((x) => (
+              <Pagination.Item>
               <Link
                 className={x + 1 === page ? "active" : ""}
                 key={x + 1}
@@ -130,10 +139,9 @@ export default function ProductListScreen(props) {
               >
                 {x + 1}
               </Link>
+              </Pagination.Item>
             ))}
-          </div>
-        </>
-      )}
+          </Pagination>
     </div>
   );
 }

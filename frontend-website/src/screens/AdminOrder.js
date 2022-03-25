@@ -8,6 +8,8 @@ import { createOrderAdmin } from "actions/orderActions";
 import { ORDER_CREATE_RESET } from "constants/orderConstans";
 import LoadingBox from "components/LoadingBox";
 import MessageBox from "components/MessageBox";
+import { Row } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
 function AdminOrder(props) {
     const cart = useSelector(state => state.cart);
@@ -73,8 +75,8 @@ function AdminOrder(props) {
     }
   }, [dispatch, order, success, props.history]);
   return (
-    <div className="row top">
-      <div className="col-1">
+    <Row>
+      <Col md={6}>
         <h1>Shopping cart</h1>
         {cartItems.length === 0 ? (
           <div>empty</div>
@@ -82,7 +84,8 @@ function AdminOrder(props) {
           <ul>
             {cartItems.map((item) => (
               <li key={item.product}>
-                <div className="row">
+                <Row className="row">
+                <Col md={6}>
                   <div>
                     <img
                       src={item.image}
@@ -93,32 +96,35 @@ function AdminOrder(props) {
                   <div className="min-30">
                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </div>
-                  <div>
-                    <select
+                  </Col>
+                  <Col md={2}>
+                  <select
                       value={item.qty}
-                      onChange={(e) =>
+                      onChange={e =>
                         dispatch(
                           addToCart(item.product, Number(e.target.value))
                         )
                       }
                     >
-                      {[...Array(item.countInStock).keys()].map((x) => (
+                      {[...Array(item.countInStock).keys()].map(x => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </Col>
+                  <Col md={2}>
                   <div>${item.price}</div>
-                  <div>
-                    <button
+                  </Col>
+                  <Col md={2}>
+                  <button
                       type="button"
                       onClick={() => handleRemoveCart(item.product)}
                     >
                       DELETE
                     </button>
-                  </div>
-                </div>
+                  </Col>
+                </Row>
               </li>
             ))}
             <li>
@@ -141,15 +147,13 @@ function AdminOrder(props) {
             </li>
           </ul>
         )}
-      </div>
-      <div className="col-1">
+      </Col>
+      <Col md={6}>
         <div className="card card-body">
           <ul>
             <li>
               <QrReader
                 delay={1000}
-                // facingMode="environment"
-                // chooseDeviceId={facingMode}
                 style={previewStyle}
                 onError={handleError}
                 onScan={handleScan}
@@ -157,8 +161,8 @@ function AdminOrder(props) {
             </li>
           </ul>
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
   );
 }
 

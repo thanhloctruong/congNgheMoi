@@ -32,7 +32,7 @@ import SearchScreen from "screens/SearchScreen";
 import DashboardScreen from 'screens/DashboardScreen';
 import SupportScreen from 'screens/SupportScreen';
 import ChatBox from 'components/ChatBox';
-
+import { Row, Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 function App() {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
@@ -58,110 +58,118 @@ function App() {
   }, [dispatch]);
   return (
     <Router>
-      <div className="grid-container">
-        <header className="row">
-          <div>
-          <button
-              type="button"
-              className="open-sidebar"
-              onClick={() => setSidebarIsOpen(true)}
-            >
-              <i className="fa fa-bars"></i>
-            </button>
-            <Link className="brand" to="/">
-              ACan
-            </Link>
-          </div>
-          <div>
-            <Route
-              render={({ history }) => (
-                <SearchBox history={history}></SearchBox>
-              )}
-            ></Route>
-          </div>
-          <div>
-            {userInfo ? (
-              ""
-            ) : (
-              <Link to="/signinqr">
-                <span className="cartlogo">
-                  <i className="fas fa-qrcode"></i>
-                </span>
-              </Link>
-            )}
-
-            <Link to="/cart">
-              <span className="cartlogo">
-                <i className="fas fa-shopping-cart"></i>
-              </span>
-              {cartItems.length > 0 && (
-                <span className="badge">{cartItems.length}</span>
-              )}
-            </Link>
-
-            {userInfo ? (
-              <div className="dropdown">
-                <Link to="#">
-                  {userInfo.name}
-                  <i className="fa fa-caret-down"></i>
+      <Container fluid>
+        <Row>
+          <Navbar bg="info" expand="lg">
+            <Container fluid>
+              <button
+                type="button"
+                className="open-sidebar"
+                onClick={() => setSidebarIsOpen(true)}
+              >
+                <i className="fa fa-bars"></i>
+              </button>
+              <Navbar.Brand href="#">
+                <Link className="brand" to="/">
+                  AC&H
                 </Link>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/profile">User Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/orderhistory">Order History</Link>
-                  </li>
+              </Navbar.Brand>
 
-                  <li>
-                    <Link to="/" onClick={handleSignOut}>
-                      Sign Outs
-                    </Link>
-                  </li>
-                  <li>
-                    <QRCode
-                      id="qrcode"
-                      value={userInfo.token}
-                      size={200}
-                      level={"H"}
-                      includeMargin={true}
-                    />
-                  </li>
-                </ul>
-              </div>
-            ) : (
-              <Link to="/signin">sign in</Link>
-            )}
-            {userInfo && userInfo.isAdmin && (
-              <div className="dropdown">
-                <Link to="#admin">
-                  {" "}
-                  Admin <i className="fa fa-caret-down"></i>
-                </Link>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/dashboard">dashboard</Link>
-                  </li>
-                  <li>
-                    <Link to="/productlist/pageNumber/:pageNumber">productlist</Link>
-                  </li>
-                  <li>
-                    <Link to="/orderlist">order</Link>
-                  </li>
-                  <li>
-                    <Link to="/userlist">users</Link>
-                  </li>
-                  <li>
-                    <Link to="/support">Support</Link>
-                  </li>
-                  <li>
-                    <Link to="/adminorder">Thanh Toan</Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </header>
+              <Navbar.Toggle aria-controls="navbarScroll" />
+              
+              <Navbar.Collapse id="navbarScroll">
+                <Nav
+                  className="me-auto my-2 my-lg-0"
+                  style={{ maxHeight: '100px' }}
+                  navbarScroll
+                >
+                </Nav>
+                <Route
+                render={({ history }) => (
+                  <SearchBox history={history}></SearchBox>
+                )}
+              ></Route>
+                {userInfo ? (
+                  ""
+                ) : (
+                  <Nav.Link href="/signinqr"><span className="cartlogo" title='login with QR '>
+                    <i className="fas fa-qrcode"></i>
+                  </span></Nav.Link>
+                )}
+                <Nav.Link href="/cart">
+                  <span className="cartlogo">
+                    <i className="fas fa-shopping-cart"></i>
+                  </span>
+                  {cartItems.length > 0 && (
+                    <span className="badge">{cartItems.length}</span>
+                  )}</Nav.Link>
+                
+                {userInfo ? (
+                <div className="dropdown">
+                  <Link to="#">
+                    {userInfo.name}
+                    <i className="fa fa-caret-down"></i>
+                  </Link>
+                  <ul className="dropdown-content">
+                    <li>
+                      <Link to="/profile">User Profile</Link>
+                    </li>
+                    <li>
+                      <Link to="/orderhistory">Order History</Link>
+                    </li>
+
+                    <li>
+                      <Link to="/" onClick={handleSignOut}>
+                        Sign Outs
+                      </Link>
+                    </li>
+                    <li>
+                      <QRCode
+                        id="qrcode"
+                        value={userInfo.token}
+                        size={200}
+                        level={"H"}
+                        includeMargin={true}
+                      />
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                <Link to="/signin">sign in</Link>
+              )}
+              {userInfo && userInfo.isAdmin && (
+                <div className="dropdown" style={{marginLeft: '2rem'}}>
+                  <Link to="#admin">
+                    {" "}
+                    Admin <i className="fa fa-caret-down"></i>
+                  </Link>
+                  <ul className="dropdown-content">
+                    <li>
+                      <Link to="/dashboard">dashboard</Link>
+                    </li>
+                    <li>
+                      <Link to="/productlist/pageNumber/:pageNumber">productlist</Link>
+                    </li>
+                    <li>
+                      <Link to="/orderlist">order</Link>
+                    </li>
+                    <li>
+                      <Link to="/userlist">users</Link>
+                    </li>
+                    <li>
+                      <Link to="/support">Support</Link>
+                    </li>
+                    <li>
+                      <Link to="/adminorder">Thanh Toan</Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+          
+        </Row>
         <aside className={sidebarIsOpen ? 'open' : ''}>
           <ul className="categories">
             <li>
@@ -220,7 +228,7 @@ function App() {
             exact
           ></Route>
           <Route
-             path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order/pageNumber/:pageNumber"
+            path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order/pageNumber/:pageNumber"
             component={SearchScreen}
             exact
           ></Route>
@@ -255,11 +263,12 @@ function App() {
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">
-        {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
-        <div>
-        coppy right ACan @2021
-        </div></footer>
-      </div>
+          {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
+          <div>
+            coppy right ACan @2021
+          </div>
+          </footer>
+      </Container>
     </Router>
   );
 }

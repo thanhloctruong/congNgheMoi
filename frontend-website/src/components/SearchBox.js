@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, Form, FormControl, Row } from 'react-bootstrap';
 
 export default function SearchBox(props) {
   const [name, setName] = useState('');
@@ -7,18 +8,16 @@ export default function SearchBox(props) {
     props.history.push(`/search/name/${name}`);
   };
   return (
-    <form className="search" onSubmit={submitHandler}>
-      <div className="row">
-        <input
-          type="text"
-          name="q"
+      <Form className="d-flex search" onSubmit={submitHandler}>
+        <FormControl
+          type="search"
+          placeholder="Search"
+          className="me-2"
+          name='q'
           id="q"
           onChange={(e) => setName(e.target.value)}
-        ></input>
-        <button className="primary" type="submit">
-          <i className="fa fa-search"></i>
-        </button>
-      </div>
-    </form>
+        />
+        <Button variant="outline-success"><i className="fa fa-search"></i></Button>
+      </Form>
   );
 }
