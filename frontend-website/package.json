@@ -1,6 +1,6 @@
 {
   "name": "frontend-webstise",
-  "proxy": "http://localhost:8088",
+  "proxy": "https://khoaluaniuh.herokuapp.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
